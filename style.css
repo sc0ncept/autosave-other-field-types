@@ -6,13 +6,21 @@ body {
 
 label,
 input,
-textarea {
+textarea,
+select {
   display: block;
   width: 100%;
 }
 
+[type="checkbox"],
+[type="radio"] {
+  display: inline;
+  width: auto;
+}
+
 input,
-textarea {
+textarea,
+select {
   margin-bottom: 1em;
 }
 
