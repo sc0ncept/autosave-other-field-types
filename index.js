@@ -18,7 +18,7 @@ const loadData = function () {
   if (!saved) return;
   saved = JSON.parse(saved);
 
-  const inputs = document.querySelectorAll('#save-me input, #save-me textarea');
+  const inputs = document.querySelectorAll('#save-me input, #save-me textarea, #save-me select');
 
   Array.prototype.slice.call(inputs).forEach(function (input) {
 
@@ -26,7 +26,13 @@ const loadData = function () {
     if (!id) return;
     if (!saved[id]) return;
 
-    input.value = saved[id];
+    if (input.type === 'checkbox') {
+      input.checked = saved[id] === 'on' ? true : false;
+    } else if (input.type === 'radio') {
+      input.checked = saved[id] === input.value ? true : false;
+    } else {
+      input.value = saved[id];
+    }
   })
 }
 
@@ -38,6 +44,13 @@ const inputHandler = function (event) {
   let saved = localStorage.getItem(storageID);
   saved = saved ? JSON.parse(saved) : {};
   saved[id] = event.target.value;
+
+  if (event.target.type === 'checkbox') {
+    saved[id] = event.target.checked ? 'on' : 'off';
+  } else {
+    saved[id] = event.target.value;
+  }
+
   localStorage.setItem(storageID, JSON.stringify(saved));
 };
 
